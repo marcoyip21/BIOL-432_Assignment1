@@ -1,0 +1,61 @@
+---
+title: "A1_Yip20168228.PDF"
+author: "Marco Yip"
+date: "2023-01-11"
+output: pdf_document
+---
+
+#Github link 
+#https://github.com/marcoyip21/BIOL-432_Assignment1
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Run previous R scripts 
+```{r}
+source("./dataGenerato.R")
+source("./volumeEstimato.R")
+```
+
+#Q1, Loading library and revised measurements.csv
+```{r}
+library(dplyr)
+library(ggplot2)
+InData = read.csv("./measurements.csv")
+```
+
+#Q2 Sorting the data by species, then by observer, then by limb volume
+```{r}
+SpeciesData = InData %>% 
+  arrange(Species)
+ObserverData = InData %>% 
+  arrange(Observer)
+VolumeData = InData %>% 
+  arrange(volume)
+```
+
+#Q3 Table showing average volume for each species
+```{r}
+NewData = SpeciesData %>% 
+  group_by(Species)%>%
+  summarize(mean(volume))
+```
+
+#Q4 Table showing the number of observations for each combination of species and observer 
+```{r}
+DataCount=count(SpeciesData,Species, Observer)
+```
+
+#Q5 Box plot to compare key features of the distributions of volumes for each species
+```{r}
+ggplot(data = SpeciesData, aes(x = Species, y = volume))+
+  geom_boxplot()
+```
+
+#Q6 Multi-panel plot showing frequency histograms showing the distribution of limb volume for each species.
+```{r}
+ggplot(SpeciesData, aes(x=volume, fill=Species)) +
+  geom_histogram() + 
+  facet_wrap(vars(Species)) + 
+  ylab("Number of species")+ xlab("Volume of limb")
+```
