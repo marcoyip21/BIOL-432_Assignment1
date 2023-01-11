@@ -11,10 +11,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{}
-
-```
-
 #Run previous R scripts 
 ```{r}
 source("./dataGenerato.R")
